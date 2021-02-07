@@ -5,11 +5,23 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
 
 ```{r}
-plot(cars)
+getwd()
+checkpackage<-function(U){
+  if((U %in% rownames(installed.packages()))==F){
+    install.packages(U)
+    library(U, character.only = TRUE)
+  }else{
+    library(U, character.only = TRUE)
+  }
+}
+packagelist<-list("lattice", "Rcpp", "MASS","methods", "zoo", "stats","utils","grDevices",
+                  "graphics","RcppArmadillo", "RcppEigen", "R.matlab")
+lapply(packagelist,checkpackage)
+
+#### Source Functions ####
+source("mainfunctionsinR.R") # Main Functions in R 
+sourceCpp('mainfunctionsinC.cpp') # Main Functions in C
+# sourceCpp('auxftc.cpp') # Auxiliary Functions
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
