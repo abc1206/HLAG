@@ -1,6 +1,7 @@
 #include <numeric>      // std::iota
 
 #include <RcppArmadillo.h>
+#include <Rcpp.h>
 #include <vector>
 #include <limits>
 #include <algorithm>
@@ -585,21 +586,24 @@ List BlockUpdate2(const mat& ZZ1, double lam,const mat& Y1,double eps, List grou
 
 colvec ThreshUpdateOO(const mat& ZZ, double lam,const mat& Y,double eps, List groups, List fullgroups, List compgroups,List M2f_, List eigvalF_, List eigvecF_,colvec& B,int n, int k1)
   {
-
+ 
 	  int kp=B.n_elem;
 	  int n1=groups.size();
 	  colvec BPrev=B;
 	  List active(n1);
 	  List betaActive2(3);
+	  NumericVector vectem;
+	  vectem = groups;
  
-	  if(max(groups)==0)
+	  if(max(vectem)==0) 
 		  {
 
-			  B.zeros(kp);
+			   B.zeros(kp);
 
 			  active=groups;
 		  }
-	  else{
+	  
+	   else{
 		  double threshold=10*eps;
 		  while(threshold>eps)
 			  {
@@ -611,8 +615,12 @@ colvec ThreshUpdateOO(const mat& ZZ, double lam,const mat& Y,double eps, List gr
 				  BPrev=B;
 
 			  }
+	  
 	  }
+   
+ // B=0.0;
 	  return(B);
+	  
   }
 
 // [[Rcpp::export]]
